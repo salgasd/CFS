@@ -22,13 +22,13 @@ def calc_merit(data, subset, target, fc_method='pointbiserialr', ff_method='pear
         rcf_all = [abs(pointbiserialr(target, data[col]).correlation) for col in subset]
     elif fc_method == 'spearman':
         rcf_all = [abs(spearmanr(target, data[col]).correlation) for col in subset]
-    rcf = np.mean(rcf_all)
+    rcf = np.sum(rcf_all)
 
     # Ср. корреляция между фичами
     corr = data[subset].corr(method=ff_method)
     corr.values[np.tril_indices_from(corr.values)] = np.nan
     corr = abs(corr)
-    rff = corr.unstack().mean()
+    rff = corr.unstack().sum()
 
     return (k * rcf) / np.sqrt(k + k * (k-1) * rff)
 
