@@ -85,3 +85,8 @@ class CFS(TransformerMixin, BaseEstimator):
                     visited.append(temp_subset)
                     merit = -calc_merit(X, temp_subset, y, self.fc_method, self.ff_method)
                     q.put(PrioritizedItem(merit, temp_subset))
+        return self
+
+    def transform(self, X, y=None, **kwargs):
+        df = X.copy().loc[:, self.best_subset]
+        return df
